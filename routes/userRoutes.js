@@ -20,7 +20,7 @@ router.get("/leaderboard", getLeaderboard);
 // Fetch claim points history
 router.get("/history", getHistory);
 
-// Delete a user
-router.delete("/:id", deleteUser); // Add route for deleting user
+// Delete a user (soft delete)
+router.delete("/:id", deleteUser); // Soft delete route
 
 module.exports = router;
