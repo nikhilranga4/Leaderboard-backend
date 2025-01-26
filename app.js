@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
@@ -25,8 +24,8 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"] // Allow specific headers
 }));
 
-// Middleware for parsing JSON bodies
-app.use(bodyParser.json());
+// Middleware for parsing JSON bodies (using express.json() instead of bodyParser)
+app.use(express.json()); 
 
 // API Routes
 app.use("/api/users", userRoutes);
