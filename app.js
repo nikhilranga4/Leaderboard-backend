@@ -16,7 +16,7 @@ const app = express();
 app.use(cors({
   origin: [
     "http://localhost:3000",      // Your frontend (React.js) local URL
-    "http://localhost:8080","http://192.168.1.4:8080","https://leaderboard8.netlify.app" 
+    "http://localhost:8080","http://192.168.1.4:8080","https://leaderboard8.netlify.app"
   ],
   methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
   credentials: true, // Allow cookies/auth headers
@@ -24,7 +24,7 @@ app.use(cors({
 }));
 
 // Middleware for parsing JSON bodies (using express.json() instead of bodyParser)
-app.use(express.json()); 
+app.use(express.json());
 
 // API Routes
 app.use("/api/users", userRoutes);
