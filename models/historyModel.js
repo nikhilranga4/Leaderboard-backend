@@ -1,14 +1,19 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
+const historySchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User", // Reference to User model
     required: true,
   },
-  totalPoints: {
+  points: {
     type: Number,
-    default: 0,
+    required: true,
   },
-}, { timestamps: true }); // Add timestamps to track creation/updates
+  timestamp: {
+    type: Date,
+    default: Date.now,
+  },
+}, { timestamps: true });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.models.History || mongoose.model("History", historySchema);
