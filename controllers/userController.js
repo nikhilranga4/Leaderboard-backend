@@ -5,17 +5,27 @@ const History = require("../models/historyModel");
 exports.addUser = async (req, res) => {
   const { name } = req.body;
 
+  if (!name) {
+    return res.status(400).json({ error: "Name is required" });
+  }
+
   try {
     const newUser = await User.create({ name });
     res.status(201).json(newUser);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Failed to add user" });
   }
 };
 
 // Claim random points for a user
 exports.claimPoints = async (req, res) => {
-  const { userId } = req.body;
+  const { id } = req.params; // Retrieve user ID from URL params
+  const { userId } = req.body; // Use the userId from request body
+
+  if (!userId || userId !== id) {
+    return res.status(400).json({ error: "User ID mismatch or missing" });
+  }
 
   try {
     const randomPoints = Math.floor(Math.random() * 10) + 1;
@@ -34,6 +44,7 @@ exports.claimPoints = async (req, res) => {
 
     res.status(200).json({ user, history });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Failed to claim points" });
   }
 };
@@ -47,6 +58,7 @@ exports.getLeaderboard = async (req, res) => {
 
     res.status(200).json(leaderboard);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Failed to fetch leaderboard" });
   }
 };
@@ -60,6 +72,7 @@ exports.getHistory = async (req, res) => {
 
     res.status(200).json(history);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Failed to fetch history" });
   }
 };
