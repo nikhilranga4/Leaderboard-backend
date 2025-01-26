@@ -17,7 +17,7 @@ app.use(cors({
   origin: [
     "http://localhost:3000",      // Your frontend (React.js) local URL
     "https://your-frontend-url.com",  // Replace with your deployed frontend URL
-    "http://localhost:8080"       // Your other local frontend port (if applicable)
+    "http://localhost:8080","http://192.168.1.4:8080"       // Your other local frontend port (if applicable)
   ],
   methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
   credentials: true, // Allow cookies/auth headers
