@@ -9,6 +9,11 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-}, { timestamps: true }); // Add timestamps to track creation/updates
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
+}, { timestamps: true });
 
-module.exports = mongoose.model("User", userSchema);
+// Prevent overwriting the model
+module.exports = mongoose.models.User || mongoose.model("User", userSchema);
