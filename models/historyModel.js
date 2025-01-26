@@ -1,19 +1,14 @@
 const mongoose = require("mongoose");
 
-const historySchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // Ensure this matches the referenced model name
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
     required: true,
   },
-  points: {
+  totalPoints: {
     type: Number,
-    required: true,
+    default: 0,
   },
-  timestamp: {
-    type: Date,
-    default: Date.now,
-  },
-}, { timestamps: true });
+}, { timestamps: true }); // Add timestamps to track creation/updates
 
-module.exports = mongoose.model("History", historySchema);
+module.exports = mongoose.model("User", userSchema);
