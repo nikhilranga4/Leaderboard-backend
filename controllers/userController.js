@@ -76,10 +76,8 @@ exports.deleteUser = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Optionally, delete the user's history entries
-    await History.deleteMany({ userId: id });
-
-    res.status(200).json({ message: "User deleted successfully" });
+    // History is not deleted, only the user is removed
+    res.status(200).json({ message: "User deleted successfully, history retained" });
   } catch (error) {
     res.status(500).json({ error: "Failed to delete user" });
   }
