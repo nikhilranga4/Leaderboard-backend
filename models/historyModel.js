@@ -14,6 +14,6 @@ const historySchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-}, { timestamps: true }); // Add timestamps to track creation/updates
+}, { timestamps: true });
 
 module.exports = mongoose.model("History", historySchema);
