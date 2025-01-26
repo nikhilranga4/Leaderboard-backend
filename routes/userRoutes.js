@@ -5,6 +5,7 @@ const {
   claimPoints,
   getLeaderboard,
   getHistory,
+  deleteUser, // Import deleteUser function
 } = require("../controllers/userController");
 
 // Add a new user
@@ -18,5 +19,8 @@ router.get("/leaderboard", getLeaderboard);
 
 // Fetch claim points history
 router.get("/history", getHistory);
+
+// Delete a user
+router.delete("/:id", deleteUser); // Add route for deleting user
 
 module.exports = router;
