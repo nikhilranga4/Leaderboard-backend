@@ -55,7 +55,7 @@ exports.getLeaderboard = async (req, res) => {
 exports.getHistory = async (req, res) => {
   try {
     const history = await History.find()
-      .populate("userId", "name")
+      .populate("userId", "name") // This will ensure the user's name appears in history
       .sort({ timestamp: -1 });
 
     res.status(200).json(history);
@@ -64,20 +64,26 @@ exports.getHistory = async (req, res) => {
   }
 };
 
-// Delete a user
+// Soft delete a user (mark as deleted)
 exports.deleteUser = async (req, res) => {
   const { id } = req.params;
 
   try {
-    // Delete the user
-    const user = await User.findByIdAndDelete(id);
+    // Update the user by marking them as deleted (soft delete)
+    const user = await User.findByIdAndUpdate(
+      id,
+      { name: "Deleted User", isDeleted: true, totalPoints: 0 }, // Set points to 0
+      { new: true }
+    );
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // History is not deleted, only the user is removed
-    res.status(200).json({ message: "User deleted successfully, history retained" });
+    // Optionally, delete the user's history (if required)
+    // await History.deleteMany({ userId: id });
+
+    res.status(200).json({ message: "User soft deleted successfully, history retained" });
   } catch (error) {
     res.status(500).json({ error: "Failed to delete user" });
   }
