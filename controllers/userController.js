@@ -21,8 +21,8 @@ exports.claimPoints = async (req, res) => {
     const randomPoints = Math.floor(Math.random() * 10) + 1;
     const user = await User.findById(userId);
 
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
+    if (!user || user.isDeleted) {
+      return res.status(404).json({ error: "User not found or has been deleted" });
     }
 
     // Update user points
@@ -38,10 +38,10 @@ exports.claimPoints = async (req, res) => {
   }
 };
 
-// Get leaderboard
+// Get leaderboard (only active users)
 exports.getLeaderboard = async (req, res) => {
   try {
-    const leaderboard = await User.find()
+    const leaderboard = await User.find({ isDeleted: false })
       .sort({ totalPoints: -1 })
       .select("name totalPoints");
 
@@ -64,20 +64,22 @@ exports.getHistory = async (req, res) => {
   }
 };
 
-// Delete a user
+// Soft delete a user
 exports.deleteUser = async (req, res) => {
   const { id } = req.params;
 
   try {
-    // Delete the user
-    const user = await User.findByIdAndDelete(id);
+    const user = await User.findById(id);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // History is not deleted, only the user is removed
-    res.status(200).json({ message: "User deleted successfully, history retained" });
+    // Mark user as deleted
+    user.isDeleted = true;
+    await user.save();
+
+    res.status(200).json({ message: "User marked as deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: "Failed to delete user" });
   }
