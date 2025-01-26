@@ -11,9 +11,8 @@ const userSchema = new mongoose.Schema({
   },
   isDeleted: {
     type: Boolean,
-    default: false,
+    default: false, // Default to active
   },
 }, { timestamps: true });
 
-// Prevent overwriting the model
 module.exports = mongoose.models.User || mongoose.model("User", userSchema);
